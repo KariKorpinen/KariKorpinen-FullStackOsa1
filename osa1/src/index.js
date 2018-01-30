@@ -1,67 +1,63 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-const App = () => {
-  const kurssi = { 
-  nimi: 'Half Stack -sovelluskehitys',
-  osat: [ 
-        {
-          nimi: 'Reactin perusteet',
-          tehtavia: 10
-        },
-        {
-          nimi: 'Tiedonvälitys propseilla',
-          tehtavia: 7
-        },
-        {
-          nimi: 'Komponenttien tila',
-          tehtavia: 14
-        }
-     ]
+class App extends React.Component {
+ constructor() {
+    super()
+    this.state = {
+      counter: 0,
+      counter2: 0,
+      counter3: 0
+    }
   }
-  return (
-    <div>
-       <Otsikko kurssi={kurssi.nimi} />
-       <Sisalto osat={kurssi.osat}/>
-       <Yhteensa osat={kurssi.osat}/>
-    </div>
-   )
+
+  asetaArvoon = (arvo) => {
+    return () => {
+      this.setState({ counter: arvo })
+    }
+  }
+
+  asetaArvoon2 = (arvo) => {
+    return () => {
+      this.setState({ counter2: arvo })
+    }
+  }
+
+  asetaArvoon3 = (arvo) => {
+    return () => {
+      this.setState({ counter3: arvo })
+    }
+  }
+
+
+  render() {
+    return (
+      <div>
+        <h1>anna palautetta</h1>
+        
+        <div>
+           <button onClick={this.asetaArvoon(this.state.counter + 1)}>
+            hyvä
+          </button>
+          <button onClick={this.asetaArvoon2(this.state.counter2 + 1)}>
+            neutraali
+          </button>
+           <button onClick={this.asetaArvoon3(this.state.counter3 + 1)}>
+            huono
+           </button>
+        </div>
+        <h1>statistiikka</h1>
+        <div>hyvä {this.state.counter}</div>
+        <div>neutraali {this.state.counter2}</div>
+        <div>huono {this.state.counter3}</div>
+        <div>keskiarvo {((this.state.counter * 1) + (this.state.counter2 * 0) + (this.state.counter3 * -1))/(this.state.counter + this.state.counter2 + this.state.counter3) }</div>
+        <div>positiivisia {this.state.counter /(this.state.counter + this.state.counter2 + this.state.counter3) * 100 } % </div>
+
+
+      </div>
+     )
+   }
 }
-
-const Otsikko = (props) => {
-    return (
-      <div>
-        <h1>{props.kurssi}</h1>
-      </div>
-    )
-  }
-
-  const Sisalto = (props) => {
-    return (
-      <div>
-        <Osa osa={props.osat[0].nimi} tehtavia={props.osat[0].tehtavia} />
-        <Osa osa={props.osat[1].nimi} tehtavia={props.osat[1].tehtavia} />
-        <Osa osa={props.osat[2].nimi} tehtavia={props.osat[2].tehtavia} />
-      </div>
-    )
-  }
-
-  const Yhteensa = (props) => {
-    return (
-      <div>
-        <p>yhteensä {props.osat[0].tehtavia + props.osat[1].tehtavia + props.osat[2].tehtavia} tehtävää</p>
-      </div>
-    )
-  }
-
-  const Osa = (props) => {
-    return (
-      <div>
-        <p>{props.osa} {props.tehtavia}</p>
-      </div>
-    )
-  }
-
 ReactDOM.render(
   <App />,
   document.getElementById('root')
